@@ -9,6 +9,8 @@ public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand,
 {
     public async Task<CreateProductResult> Handle(CreateProductCommand request, CancellationToken cancellationToken)
     {
+        await Task.Delay(0, cancellationToken);
+
         throw new NotImplementedException();
     }
 }
