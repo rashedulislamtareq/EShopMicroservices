@@ -19,7 +19,7 @@ public class GetProductsEndpoint : ICarterModule
             .WithName("GetProducts")
             .Produces<GetProductsResponse>(StatusCodes.Status200OK)
             .ProducesProblem(StatusCodes.Status400BadRequest)
-            .WithSummary("get products")
+            .WithSummary("Get products")
             .WithDescription("Get products");
     }
 }
