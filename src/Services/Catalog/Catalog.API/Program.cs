@@ -4,18 +4,21 @@
 using BuildingBlocks.Behaviors;
 
 var builder = WebApplication.CreateBuilder(args);
-// Add Carter To Service
-builder.Services.AddCarter();
+
+var assembly = typeof(Program).Assembly;
 
 // Add Mediator To Service
 builder.Services.AddMediatR(config =>
 {
-    config.RegisterServicesFromAssembly(typeof(Program).Assembly);
+    config.RegisterServicesFromAssembly(assembly);
     config.AddOpenBehavior(typeof(ValidationBehavior<,>)); //For MediatR Pipeline Behavior
 });
 
+// Add Carter To Service
+builder.Services.AddCarter();
+
 // Add Fluent Validator To Service
-builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
+builder.Services.AddValidatorsFromAssembly(assembly);
 
 // Add Marten To Service As ORM
 builder.Services.AddMarten(opts =>
