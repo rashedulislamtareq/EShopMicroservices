@@ -2,6 +2,7 @@
 #region Register Services To The Container
 
 using BuildingBlocks.Exceptions.Handler;
+using Catalog.API.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +27,12 @@ builder.Services.AddMarten(opts =>
 {
     opts.Connection(builder.Configuration.GetConnectionString("Database")!);
 }).UseLightweightSessions();
+
+// Seed Data With Martin, Only In Development Environment
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.InitializeMartenWith<CatalogInitialData>();
+}
 
 //Add Custom ExceptionHandler
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
