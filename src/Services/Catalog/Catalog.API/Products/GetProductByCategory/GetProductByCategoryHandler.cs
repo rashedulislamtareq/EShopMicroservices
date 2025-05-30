@@ -5,8 +5,7 @@ public record GetProductByCategoryResult(IEnumerable<Product> Products);
 
 public class GetProductByCategoryQueryHandler
     (
-        IDocumentSession session,
-        ILogger<GetProductByCategoryQueryHandler> logger
+        IDocumentSession session
     )
     : IQueryHandler<GetProductByCategoryQuery, GetProductByCategoryResult>
 {

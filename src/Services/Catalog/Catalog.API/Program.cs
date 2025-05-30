@@ -11,7 +11,8 @@ var assembly = typeof(Program).Assembly;
 builder.Services.AddMediatR(config =>
 {
     config.RegisterServicesFromAssembly(assembly);
-    config.AddOpenBehavior(typeof(ValidationBehavior<,>)); //For MediatR Pipeline Behavior
+    config.AddOpenBehavior(typeof(ValidationBehavior<,>)); //For MediatR Pipeline Behavior On Fluent Validation
+    config.AddOpenBehavior(typeof(LoggingBehavior<,>)); //For MediatR Pipeline Behavior On Central Logging
 });
 
 // Add Carter To Service

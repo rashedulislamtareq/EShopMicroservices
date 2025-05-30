@@ -6,8 +6,7 @@ public record GetProductByIdResult(Product Product);
 
 public class GetProductByIdQueryHandler 
     (
-        IDocumentSession session,
-        ILogger<GetProductByIdQueryHandler> logger
+        IDocumentSession session
     )
     : IQueryHandler<GetProductByIdQuery, GetProductByIdResult>
 {

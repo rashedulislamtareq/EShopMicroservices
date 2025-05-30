@@ -19,8 +19,7 @@ public class UpdateProductCommandValidator : AbstractValidator<UpdateProductComm
 
 internal class UpdateProductCommandHandler
     (
-        IDocumentSession session,
-        ILogger<UpdateProductCommandHandler> logger
+        IDocumentSession session
     )
     : ICommandHandler<UpdateProductCommand, UpdateProductResult>
 {
