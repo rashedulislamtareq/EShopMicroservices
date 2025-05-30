@@ -1,9 +1,7 @@
 
 #region Register Services To The Container
 
-using BuildingBlocks.Behaviors;
-using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
+using BuildingBlocks.Exceptions.Handler;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +26,9 @@ builder.Services.AddMarten(opts =>
     opts.Connection(builder.Configuration.GetConnectionString("Database")!);
 }).UseLightweightSessions();
 
+//Add Custom ExceptionHandler
+builder.Services.AddExceptionHandler<CustomExceptionHandler>();
+
 #endregion
 
 #region HTTP Request Pipeline
@@ -36,33 +37,7 @@ var app = builder.Build();
 
 app.MapCarter();
 
-//Global Exception Middleware
-app.UseExceptionHandler(exceptionHandlerApp =>
-{
-    exceptionHandlerApp.Run(async context =>
-    {
-        var exception = context.Features.Get<IExceptionHandlerFeature>()?.Error;
-        if (exception is null)
-        {
-            return;
-        }
-
-        var problemDetails = new ProblemDetails
-        {
-            Title = exception.Message,
-            Status = StatusCodes.Status500InternalServerError,
-            Detail = exception.StackTrace
-        };
-
-        var logger = context.RequestServices.GetService<ILogger<Program>>();
-        logger.LogError(exception, exception.Message, problemDetails);
-
-        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-        context.Response.ContentType = "application/problem+json";
-
-        await context.Response.WriteAsJsonAsync(problemDetails);
-    });
-});
+app.UseExceptionHandler(options => { }); //Empty Options Indicates Custom Exception Handler
 
 app.Run();
 
