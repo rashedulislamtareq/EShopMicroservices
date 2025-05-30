@@ -4,6 +4,19 @@ public record UpdateProductCommand(Guid Id, string Name, string Description, Lis
     : ICommand<UpdateProductResult>;
 public record UpdateProductResult(bool IsSuccess);
 
+public class UpdateProductCommandValidator : AbstractValidator<UpdateProductCommand>
+{
+    public UpdateProductCommandValidator()
+    {
+        RuleFor(x => x.Id).NotEmpty().WithMessage("{PropertyName} Is Required.");
+        RuleFor(x => x.Name).NotEmpty().WithMessage("{PropertyName} Is Required.")
+            .Length(2, 150).WithMessage("{PropertyName} Length Must Be Between 2 to 150 Character Long");
+        RuleFor(x => x.Category).NotEmpty().WithMessage("{PropertyName} Is Required.");
+        RuleFor(x => x.ImageFile).NotEmpty().WithMessage("{PropertyName} Is Required.");
+        RuleFor(x => x.Price).GreaterThan(0).WithMessage("{PropertyName} Is Required.");
+    }
+}
+
 internal class UpdateProductCommandHandler
     (
         IDocumentSession session,
