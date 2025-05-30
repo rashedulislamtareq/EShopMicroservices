@@ -3,6 +3,8 @@
 
 using BuildingBlocks.Exceptions.Handler;
 using Catalog.API.Data;
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,8 +36,12 @@ if (builder.Environment.IsDevelopment())
     builder.Services.InitializeMartenWith<CatalogInitialData>();
 }
 
-//Add Custom ExceptionHandler
+// Add Custom ExceptionHandler
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
+
+// Add Healthcheck Service
+builder.Services.AddHealthChecks()
+    .AddNpgSql(builder.Configuration.GetConnectionString("Database")!);
 
 #endregion
 
@@ -46,6 +52,12 @@ var app = builder.Build();
 app.MapCarter();
 
 app.UseExceptionHandler(options => { }); //Empty Options Indicates Custom Exception Handler
+
+app.UseHealthChecks("/health",
+    new HealthCheckOptions
+    {
+        ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+    });
 
 app.Run();
 
