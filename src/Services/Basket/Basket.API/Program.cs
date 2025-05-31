@@ -1,6 +1,7 @@
 #region Register Services To The Container
 
 using BuildingBlocks.Behaviors;
+using BuildingBlocks.Exceptions.Handler;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +26,12 @@ builder.Services.AddMarten(opts =>
     opts.Connection(builder.Configuration.GetConnectionString("Database")!);
 }).UseLightweightSessions();
 
+// Register Repository To The Container
+builder.Services.AddScoped<IBasketRepository, BasketRepository>();
+
+// Add Custom ExceptionHandler
+builder.Services.AddExceptionHandler<CustomExceptionHandler>();
+
 #endregion
 
 #region HTTP Request Pipeline
@@ -34,6 +41,8 @@ var app = builder.Build();
 //Configure The HTTP Request Pipeline
 
 app.MapCarter();
+
+app.UseExceptionHandler(options => { }); //Empty Options Indicates Custom Exception Handler
 
 app.Run();
 
