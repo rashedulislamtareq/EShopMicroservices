@@ -28,6 +28,13 @@ builder.Services.AddMarten(opts =>
 
 // Register Repository To The Container
 builder.Services.AddScoped<IBasketRepository, BasketRepository>();
+builder.Services.Decorate<IBasketRepository, CachedBasketRepository>(); // Using Scrutor Implemented Decorator Pattern
+
+// Add Redis Distribute Cache
+builder.Services.AddStackExchangeRedisCache(options=>
+{
+    options.Configuration = builder.Configuration.GetConnectionString("Redis")!;
+});
 
 // Add Custom ExceptionHandler
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
