@@ -16,6 +16,10 @@ builder.Services.AddDbContext<DiscountContext>(op =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+
+// Added Extension Method To Migrate Database At Application Startup
+app.UseMigration();
+
 app.MapGrpcService<DiscountService>();
 
 app.MapGet("/", () => "");
