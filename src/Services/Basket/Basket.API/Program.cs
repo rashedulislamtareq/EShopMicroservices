@@ -34,7 +34,7 @@ builder.Services.AddScoped<IBasketRepository, BasketRepository>();
 builder.Services.Decorate<IBasketRepository, CachedBasketRepository>(); // Using Scrutor Implemented Decorator Pattern
 
 // Add Redis Distribute Cache
-builder.Services.AddStackExchangeRedisCache(options=>
+builder.Services.AddStackExchangeRedisCache(options =>
 {
     options.Configuration = builder.Configuration.GetConnectionString("Redis")!;
 });
@@ -43,7 +43,19 @@ builder.Services.AddStackExchangeRedisCache(options=>
 builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(op =>
 {
     op.Address = new Uri(builder.Configuration["GrpcSettings:DiscountUrl"]!);
-});
+})
+    .ConfigurePrimaryHttpMessageHandler(() =>     
+    {
+        //Bypass SSL Certification On Grpc Calling
+        var handler = new HttpClientHandler
+        {
+            ServerCertificateCustomValidationCallback =
+            HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+        };
+
+        return handler;
+    });
+
 
 // Add Custom ExceptionHandler
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
