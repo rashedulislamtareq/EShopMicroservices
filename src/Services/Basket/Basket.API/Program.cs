@@ -2,6 +2,7 @@
 
 using BuildingBlocks.Behaviors;
 using BuildingBlocks.Exceptions.Handler;
+using Discount.Grpc;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
@@ -36,6 +37,12 @@ builder.Services.Decorate<IBasketRepository, CachedBasketRepository>(); // Using
 builder.Services.AddStackExchangeRedisCache(options=>
 {
     options.Configuration = builder.Configuration.GetConnectionString("Redis")!;
+});
+
+// Register Grpc Services
+builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(op =>
+{
+    op.Address = new Uri(builder.Configuration["GrpcSettings:DiscountUrl"]!);
 });
 
 // Add Custom ExceptionHandler
