@@ -23,7 +23,14 @@ services:
   pgadmin:
     image: dpage/pgadmin4:latest
 
+  discount.grpc:
+    image: ${DOCKER_REGISTRY-}discountgrpc
+    build:
+      context: .
+      dockerfile: Services/Discount/Discount.Grpc/Dockerfile
+
 volumes:
   postgres_catalog:
   postgres_basket:
+
 
