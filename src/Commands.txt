@@ -1,0 +1,12 @@
+##Catalog API##
+
+docker ps
+
+docker exec -it 565df64776f5 bash
+psql -U postgres
+\l
+\c CatalogDb
+\d
+
+
+
