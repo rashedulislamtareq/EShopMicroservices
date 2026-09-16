@@ -1,3 +1,5 @@
+using Marten;
+
 var builder = WebApplication.CreateBuilder(args);
 
 //Add Services To The Container
@@ -9,6 +11,11 @@ builder.Services.AddMediatR(config =>
 {
     config.RegisterServicesFromAssembly(assembly);
 });
+
+builder.Services.AddMarten(op =>
+{
+    op.Connection(builder.Configuration.GetConnectionString("Database")!);
+}).UseLightweightSessions();
 
 // Add Swagger services
 builder.Services.AddEndpointsApiExplorer();

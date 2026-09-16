@@ -1,4 +1,5 @@
 ﻿using Catalog.API.Models;
+using Marten;
 
 namespace Catalog.API.Products.CreateProduct;
 
@@ -6,7 +7,8 @@ public record CreateProductCommand(string Name, List<string> Category, string De
     : ICommand<CreateProductResult>;
 public record CreateProductResult(Guid Id);
 
-internal class CreateProductHandler : ICommandHandler<CreateProductCommand, CreateProductResult>
+internal class CreateProductHandler(IDocumentSession session)
+    : ICommandHandler<CreateProductCommand, CreateProductResult>
 {
     public async Task<CreateProductResult> Handle(CreateProductCommand request, CancellationToken cancellationToken)
     {
@@ -19,6 +21,9 @@ internal class CreateProductHandler : ICommandHandler<CreateProductCommand, Crea
             Price = request.Price
         };
 
-        return new CreateProductResult(Guid.NewGuid());
+        session.Store(product);
+        await session.SaveChangesAsync(cancellationToken);
+
+        return new CreateProductResult(product.Id);
     }
 }
