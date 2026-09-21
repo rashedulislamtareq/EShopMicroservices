@@ -47,7 +47,6 @@ var app = builder.Build();
 // Enable Swagger middleware
 if (app.Environment.IsDevelopment())
 {
-
     // For Swagger UI
     app.UseSwagger();
     app.UseSwaggerUI();
