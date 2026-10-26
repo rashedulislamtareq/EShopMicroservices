@@ -57,6 +57,7 @@ services:
       - ConnectionStrings__Database=Server=catalogdb;Port=5432;Database=CatalogDb;User Id=postgres;Password=postgres;Include Error Detail=true
       - "ElasticConfiguration:Uri=http://elasticsearch:9200"
       - ElasticApm__ServerUrl=http://apm-server:8200
+      - LokiConfiguration__Uri=http://loki:3100
     depends_on:
       - catalogdb
     ports:
@@ -79,6 +80,7 @@ services:
       - MessageBroker__Password=guest
       - "ElasticConfiguration:Uri=http://elasticsearch:9200"
       - ElasticApm__ServerUrl=http://apm-server:8200
+      - LokiConfiguration__Uri=http://loki:3100
     depends_on:
       - basketdb
       - distributedcache
@@ -101,6 +103,7 @@ services:
       - ConnectionStrings__Database=Data Source=discountdb
       - "ElasticConfiguration:Uri=http://elasticsearch:9200"
       - ElasticApm__ServerUrl=http://apm-server:8200
+      - LokiConfiguration__Uri=http://loki:3100
     ports:
       - "6002:8080"
       - "6062:8081"
@@ -122,6 +125,7 @@ services:
       - FeatureManagement__OrderFullfilment=false
       - "ElasticConfiguration:Uri=http://elasticsearch:9200"
       - ElasticApm__ServerUrl=http://apm-server:8200
+      - LokiConfiguration__Uri=http://loki:3100
     depends_on:
       - orderdb
       - messagebroker
@@ -141,6 +145,7 @@ services:
       - ASPNETCORE_HTTPS_PORTS=8081
       - "ElasticConfiguration:Uri=http://elasticsearch:9200"
       - ElasticApm__ServerUrl=http://apm-server:8200
+      - LokiConfiguration__Uri=http://loki:3100
     depends_on:
       - catalog.api
       - basket.api
@@ -162,6 +167,7 @@ services:
       - ApiSettings__GatewayAddress=http://yarpapigateway:8080
       - "ElasticConfiguration:Uri=http://elasticsearch:9200"
       - ElasticApm__ServerUrl=http://apm-server:8200
+      - LokiConfiguration__Uri=http://loki:3100
     depends_on:
       - yarpapigateway
     ports:
@@ -208,3 +214,26 @@ services:
         - kibana
     ports:
         - "8200:8200"
+
+  loki:
+    container_name: loki
+    command: -config.file=/etc/loki/local-config.yaml
+    ports:
+        - "3100:3100"
+    volumes:
+        - loki-data:/loki
+
+  grafana:
+    container_name: grafana
+    environment:
+        - GF_SECURITY_ADMIN_USER=admin
+        - GF_SECURITY_ADMIN_PASSWORD=admin
+        - GF_AUTH_ANONYMOUS_ENABLED=true
+        - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+    depends_on:
+        - loki
+    ports:
+        - "3000:3000"
+    volumes:
+        - grafana-data:/var/lib/grafana
+        - ./grafana/provisioning:/etc/grafana/provisioning:ro

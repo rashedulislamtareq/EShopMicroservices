@@ -59,10 +59,18 @@ services:
   apm-server:
     image: docker.elastic.co/apm/apm-server:7.9.2
 
+  loki:
+    image: grafana/loki:3.4.2
+
+  grafana:
+    image: grafana/grafana:11.5.2
+
 volumes:
   postgres_catalog: 
   postgres_basket: 
   elasticsearch-data:
+  loki-data:
+  grafana-data:
 
 
 

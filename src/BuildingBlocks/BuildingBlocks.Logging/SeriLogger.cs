@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Sinks.Elasticsearch;
+using Serilog.Sinks.Grafana.Loki;
 
 namespace BuildingBlocks.Logging;
 
@@ -34,6 +35,19 @@ public static class SeriLogger
                         NumberOfShards = 2,
                         NumberOfReplicas = 1
                     });
+           }
+
+           var lokiUri = context.Configuration.GetValue<string>("LokiConfiguration:Uri");
+
+           if (!string.IsNullOrWhiteSpace(lokiUri))
+           {
+               configuration.WriteTo.GrafanaLoki(
+                    lokiUri,
+                    labels:
+                    [
+                        new LokiLabel { Key = "app", Value = context.HostingEnvironment.ApplicationName?.ToLower().Replace(".", "-") ?? "unknown" },
+                        new LokiLabel { Key = "environment", Value = context.HostingEnvironment.EnvironmentName?.ToLower() ?? "unknown" }
+                    ]);
            }
        };
 }
