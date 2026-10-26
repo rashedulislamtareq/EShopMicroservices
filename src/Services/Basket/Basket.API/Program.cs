@@ -1,8 +1,12 @@
+using BuildingBlocks.Logging;
 using BuildingBlocks.Exceptions.Handler;
 using BuildingBlocks.Messaging.MassTransit;
 using Discount.Grpc;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// For Serilog + Elastic APM (centralized logs & distributed tracing)
+builder.AddElasticLogging();
 
 // Add Swagger services
 

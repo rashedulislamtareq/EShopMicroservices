@@ -1,6 +1,10 @@
+using BuildingBlocks.Logging;
 using Discount.Grpc.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// For Serilog + Elastic APM (centralized logs & distributed tracing)
+builder.AddElasticLogging();
 
 // Add services to the container.
 builder.Services.AddGrpc();

@@ -1,26 +1,35 @@
+using BuildingBlocks.Logging;
 using Refit;
 using Shopping.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// For Serilog + Elastic APM (centralized logs & distributed tracing)
+builder.AddElasticLogging();
+
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+builder.Services.AddTransient<LoggingDelegatingHandler>();
 
 builder.Services.AddRefitClient<ICatalogService>()
     .ConfigureHttpClient(c =>
     {
         c.BaseAddress = new Uri(builder.Configuration["ApiSettings:GatewayAddress"]!);
-    });
+    })
+    .AddHttpMessageHandler<LoggingDelegatingHandler>();
 builder.Services.AddRefitClient<IBasketService>()
     .ConfigureHttpClient(c =>
     {
         c.BaseAddress = new Uri(builder.Configuration["ApiSettings:GatewayAddress"]!);
-    });
+    })
+    .AddHttpMessageHandler<LoggingDelegatingHandler>();
 builder.Services.AddRefitClient<IOrderingService>()
     .ConfigureHttpClient(c =>
     {
         c.BaseAddress = new Uri(builder.Configuration["ApiSettings:GatewayAddress"]!);
-    });
+    })
+    .AddHttpMessageHandler<LoggingDelegatingHandler>();
 
 var app = builder.Build();
 

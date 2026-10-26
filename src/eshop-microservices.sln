@@ -48,6 +48,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApps", "WebApps", "{B6D7
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shopping.Web", "WebApps\Shopping.Web\Shopping.Web.csproj", "{3B637565-0541-487A-B6B0-91C9CAD8025D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlocks.Logging", "BuildingBlocks\BuildingBlocks.Logging\BuildingBlocks.Logging.csproj", "{840235AF-4DC4-4822-B4FD-229CB40F6237}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -152,6 +154,14 @@ Global
 		{3B637565-0541-487A-B6B0-91C9CAD8025D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3B637565-0541-487A-B6B0-91C9CAD8025D}.Release|x64.ActiveCfg = Release|Any CPU
 		{3B637565-0541-487A-B6B0-91C9CAD8025D}.Release|x64.Build.0 = Release|Any CPU
+		{840235AF-4DC4-4822-B4FD-229CB40F6237}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{840235AF-4DC4-4822-B4FD-229CB40F6237}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{840235AF-4DC4-4822-B4FD-229CB40F6237}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{840235AF-4DC4-4822-B4FD-229CB40F6237}.Debug|x64.Build.0 = Debug|Any CPU
+		{840235AF-4DC4-4822-B4FD-229CB40F6237}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{840235AF-4DC4-4822-B4FD-229CB40F6237}.Release|Any CPU.Build.0 = Release|Any CPU
+		{840235AF-4DC4-4822-B4FD-229CB40F6237}.Release|x64.ActiveCfg = Release|Any CPU
+		{840235AF-4DC4-4822-B4FD-229CB40F6237}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -172,6 +182,7 @@ Global
 		{B4C85D5C-B2B4-4AD3-B576-D65DF02F55BD} = {C3723397-8684-440B-8315-882F716C2675}
 		{D17330AF-02BD-4A82-9B06-6A5349649E78} = {96E8F8BD-A262-4075-B3EF-89ADEB284C46}
 		{3B637565-0541-487A-B6B0-91C9CAD8025D} = {B6D7BED6-6595-4CE0-B495-E57541858181}
+		{840235AF-4DC4-4822-B4FD-229CB40F6237} = {C3723397-8684-440B-8315-882F716C2675}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {63ACE28D-DE46-4BB9-90C7-6C166E9DF566}

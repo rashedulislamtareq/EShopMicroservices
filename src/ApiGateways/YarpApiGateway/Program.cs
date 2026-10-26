@@ -1,6 +1,10 @@
+using BuildingBlocks.Logging;
 using Microsoft.AspNetCore.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// For Serilog + Elastic APM (centralized logs & distributed tracing)
+builder.AddElasticLogging();
 
 // Add services to the container.
 builder.Services.AddReverseProxy()

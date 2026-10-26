@@ -1,9 +1,13 @@
+using BuildingBlocks.Logging;
 using Ordering.API;
 using Ordering.Application;
 using Ordering.Infrastructure;
 using Ordering.Infrastructure.Data.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// For Serilog + Elastic APM (centralized logs & distributed tracing)
+builder.AddElasticLogging();
 
 // Add services to the container.
 builder.Services

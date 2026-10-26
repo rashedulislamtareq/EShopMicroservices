@@ -1,6 +1,10 @@
+using BuildingBlocks.Logging;
 using Catalog.API.Data;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// For Serilog + Elastic APM (centralized logs & distributed tracing)
+builder.AddElasticLogging();
 
 //Add Services To The Container
 var assembly = typeof(Program).Assembly;
